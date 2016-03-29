@@ -1,13 +1,15 @@
 var koa = require('koa');
 var logger = require('koa-logger');
 var xmlParser = require('koa-xml-body').default; // note the default
+var mongo = require('koa-mongo');
 var app = koa();
-
 
 app.use(logger());
 
 app.use(xmlParser());
-
+app.use(mongo({
+  db:'lab',
+}));
 app.use(function*(next) {
   var data = this.request.body.xml;
   var msg = {};
@@ -42,8 +44,14 @@ app.use(function*(next) {
   yield next;
 });
 
-app.use(function*() {
-  this.body = '<xml><ToUserName><![CDATA[oB00duIh1UoR9KtBRiKfh-GMOmYQ]]></ToUserName><FromUserName><![CDATA[gh_28617bcf9338]]></FromUserName><CreateTime>1459230117.465</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[这是文本回复]]></Content></xml>';
-})
+app.use(function*(){
+  this.body = this.mongo.db('lab').collection('users').findOne();
+});
 
+//app.use(function*() {
+//  this.body = '<xml><ToUserName><![CDATA[oB00duIh1UoR9KtBRiKfh-GMOmYQ]]></ToUserName><FromUserName><![CDATA[gh_28617bcf9338]]></FromUserName><CreateTime>1459230117.465</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[这是文本回复]]></Content></xml>';
+//})
+app.on('error',function(err){
+  console.log(err);
+})
 app.listen(3333);
