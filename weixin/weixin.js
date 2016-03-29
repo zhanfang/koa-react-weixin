@@ -9,10 +9,6 @@ var Weixin = function(token) {
   this.res = null;
 }
 
-// Weixin.prototype.handlerText = function(msg) {
-//   return new Promise(function(resolve, reject) {});
-// }
-
 //将 js 组装成 xml
 Weixin.prototype.toXML = function(data) {
   return to.toXml(data);
@@ -80,11 +76,21 @@ Weixin.prototype.handler = function() {
   }
 };
 
-Weixin.prototype.webHome = function() {
-  return function*() {
-    var user = yield this.mongo.db('weixin').collection('users').findOne();
-    console.log(user);
-    this.body = yield render('index');
+
+Weixin.prototype.webIndex = function() {
+  return function*(next) {
+    if (this.session.user) {
+    } else {
+      this.redirect('/login');
+    }
+    yield next;
+  }
+};
+
+Weixin.prototype.webLogin = function() {
+  return function*(next) {
+    this.body = yield render('login');
+    yield next;
   }
 };
 
