@@ -1,0 +1,14 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+  },
+  "rules": {
+    "no-unused-vars": 2,
+    "no-alert": 1
+  },
+  //配置支持环境
+  "env": {
+    "node": true,
+  }
+}
