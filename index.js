@@ -4,6 +4,7 @@ var serve = require('koa-static');
 var logger = require('koa-logger');
 var session = require('koa-generic-session');
 var redisStore = require('koa-redis');
+var bodyParser = require('koa-bodyparser');
 var xmlParser = require('koa-xml-body').default; // note the default
 var mongo = require('koa-mongo');
 var app = koa();
@@ -13,9 +14,13 @@ var router = new Router({
 });
 
 //路由配置
-router.post('/', Weixin.handler());
-router.get('/home', Weixin.webIndex());
-router.get('/login', Weixin.webLogin());
+router.post('/', xmlParser(), Weixin.handler());
+router.get('/index', Weixin.webIndex());
+router.get('/login', Weixin.webLoginGet());
+router.post('/login', bodyParser(), Weixin.webLoginPost());
+router.get('/keywords', Weixin.webKeywordsGet());
+router.post('/addK', bodyParser(), Weixin.webKeywordsAdd());
+
 
 // 使用./public下的静态文件
 app.use(serve(__dirname + '/public', {
@@ -31,7 +36,7 @@ app.use(logger());
 app.use(mongo({
   db: 'weixin',
 }));
-app.use(xmlParser());
+// app.use(xmlParser());
 app.use(router.routes())
   .use(router.allowedMethods());
 

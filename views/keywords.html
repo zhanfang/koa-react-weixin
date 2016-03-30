@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+
+{% block title %}Keywords{% endblock %}
+
+{% block content %}
+<button class="btn btn-success add-k" type="button" name="button">添加回复规则</button>
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>关键字</th>
+      <th>回复</th>
+      <th>操作</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for k in ks %}
+      <tr class="success">
+        <td>{{ loop.index }}</td>
+        <td>{{ k.key }}</td>
+        <td>{{ k.val }}</td>
+        <td>修改 删除</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
+{% block script %}
+<script src="js/lib/zf_alert.js" charset="utf-8"></script>
+<script src="js/keywords.js" charset="utf-8"></script>
+{% endblock %}

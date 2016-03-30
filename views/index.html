@@ -1,8 +1,9 @@
-<html>
-<head>
-  <title>Blog</title>
-</head>
-<body>
-  11111
-</body>
-</html>
+{% extends 'layout.html' %}
+
+{% block title %}Posts{% endblock %}
+
+{% block content %}
+  <h1>Posts</h1>
+  <p>You have <strong>{{ posts.length }}</strong> posts!</p>
+  <p><a href="/post/new">Create a Post</a></p>
+{% endblock %}

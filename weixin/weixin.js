@@ -9,11 +9,6 @@ var Weixin = function(token) {
   this.res = null;
 }
 
-//将 js 组装成 xml
-Weixin.prototype.toXML = function(data) {
-  return to.toXml(data);
-};
-
 /*
 * 1.存储到数据库
 * 2.查询数据库
@@ -78,22 +73,78 @@ Weixin.prototype.handler = function() {
   }
 };
 
-
 Weixin.prototype.webIndex = function() {
   return function*(next) {
     if (this.session.user) {
+      this.body = yield render('index');
     } else {
-      this.redirect('/login');
+      this.redirect('/weixin/login');
     }
     yield next;
   }
 };
 
-Weixin.prototype.webLogin = function() {
+Weixin.prototype.webLoginGet = function() {
   return function*(next) {
-    this.body = yield render('login');
+    if (this.session.user) {
+      this.redirect('/weixin/index');
+    } else {
+      this.body = yield render('login');
+    }
+
     yield next;
   }
 };
+
+Weixin.prototype.webLoginPost = function() {
+  return function*(next) {
+    var data = this.request.body;
+    var user = yield this.mongo.db('weixin').collection('users').findOne(data, {
+      _id: 0,
+      password: 0
+    });
+    if (user) {
+      this.session.user = user;
+      this.redirect('/weixin/index');
+    } else {
+      this.body = yield render('login');
+    }
+    yield next;
+  }
+};
+
+Weixin.prototype.webKeywordsGet = function() {
+  return function*(next) {
+    if (this.session.user) {
+      var keywords = yield this.mongo.db('weixin').collection('keywords').find({}, {
+        _id: 0
+      }).toArray();
+      this.body = yield render('keywords', {
+        ks: keywords
+      });
+    } else {
+      this.redirect('/weixin/login');
+    }
+    yield next;
+  }
+}
+
+Weixin.prototype.webKeywordsAdd = function() {
+  return function*(next) {
+    if (this.session.user) {
+      var keyword = this.request.body;
+      yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
+      var keywords = yield this.mongo.db('weixin').collection('keywords').find({}, {
+        _id: 0
+      }).toArray();
+      this.body = yield render('keywords', {
+        ks: keywords
+      });
+    } else {
+      this.redirect('/weixin/login');
+    }
+    yield next;
+  }
+}
 
 module.exports = Weixin;

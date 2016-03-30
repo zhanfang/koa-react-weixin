@@ -2,27 +2,42 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>{% block title %}Blog{% endblock %}</title>
+    <title>{% block title %}weixin{% endblock %}</title>
     <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.css" rel="stylesheet">
+    <link href="http://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet">
   </head>
   <body>
-    <div class="row">
-      <div class="span4 offset4">
-        <div class="well">
-          <legend>Sign in to WebApp</legend>
-          <form method="POST" action="" accept-charset="UTF-8">
-              <div class="alert alert-error">
-                  <a class="close" data-dismiss="alert" href="#">x</a>Incorrect Username or Password!
-              </div>
-              <input class="span3" placeholder="Username" type="text" name="username">
-              <input class="span3" placeholder="Password" type="password" name="password">
-              <label class="checkbox">
-                  <input type="checkbox" name="remember" value="1"> Remember Me
-              </label>
-              <button class="btn-info btn" type="submit">Login</button>
-          </form>
+    <nav class="navbar navbar-default navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Brand</a>
         </div>
-      </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav">
+            <li><a href="/weixin/keywords">添加关键字回复<span class="sr-only">(current)</span></a></li>
+            <li><a href="/weixin/pages">添加文章</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#">Link</a></li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+    <div class="container">
+      {% block content %}
+        <p>Missing content!</p>
+      {% endblock %}
     </div>
+    {% block script %}{% endblock %}
   </body>
 </html>
