@@ -1,5 +1,6 @@
 var render = require('../lib/render');
 var to = require('../lib/to');
+var config = require('../config');
 
 var Weixin = function(token) {
   if (!(this instanceof Weixin)) {
@@ -38,12 +39,23 @@ Weixin.prototype.handler = function() {
           _id: 0,
           key: 0
         });
-        var reMsg = {
-          FromUserName: msg.ToUserName,
-          ToUserName: msg.FromUserName,
-          Content: val.val,
-          CreateTime: Date.now() / 1000
-        };
+        var reMsg;
+        if (val) {
+          reMsg = {
+            FromUserName: msg.ToUserName,
+            ToUserName: msg.FromUserName,
+            Content: val.val,
+            CreateTime: Date.now() / 1000
+          };
+        } else {
+          reMsg = {
+            FromUserName: msg.ToUserName,
+            ToUserName: msg.FromUserName,
+            Content: config.defaultMsg,
+            CreateTime: Date.now() / 1000
+          };
+        }
+
         yield this.mongo.db('weixin').collection('logtext').insert(reMsg);
         var data = to.toXml(reMsg);
         console.log(data);
