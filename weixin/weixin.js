@@ -21,8 +21,9 @@ Weixin.prototype.toXML = function(data) {
 */
 Weixin.prototype.handler = function() {
   //此处this==Weixin
-  var self = this;
+  // var self = this;
   return function*(next) {
+    console.log(1);
     //此处this=app.context
     var data = this.request.body.xml;
     var msg = {};
@@ -30,6 +31,7 @@ Weixin.prototype.handler = function() {
     msg.FromUserName = data.FromUserName[0];
     msg.CreateTime = data.CreateTime[0];
     msg.MsgType = data.MsgType[0];
+    console.log(msg);
     switch (msg.MsgType) {
       case 'text':
         msg.Content = data.Content[0];
