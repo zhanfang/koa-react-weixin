@@ -1,5 +1,5 @@
 var koa = require('koa');
-var router = require('koa-router')();
+var Router = require('koa-router');
 var serve = require('koa-static');
 var logger = require('koa-logger');
 var session = require('koa-generic-session');
@@ -8,6 +8,9 @@ var xmlParser = require('koa-xml-body').default; // note the default
 var mongo = require('koa-mongo');
 var app = koa();
 var Weixin = require('./weixin/weixin')('zhanfang');
+var router = new Router({
+  prefix: '/weixin'
+});
 
 //路由配置
 router.post('/', Weixin.handler());
@@ -15,7 +18,9 @@ router.get('/home', Weixin.webIndex());
 router.get('/login', Weixin.webLogin());
 
 // 使用./public下的静态文件
-app.use(serve(__dirname + '/public'));
+app.use(serve(__dirname + '/public', {
+  proxy: '/weixin'
+}));
 
 app.keys = ['keys', 'keykeys'];
 app.use(session({
