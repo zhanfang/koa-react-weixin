@@ -17,9 +17,7 @@ var Weixin = function(token) {
 */
 Weixin.prototype.handler = function() {
   //此处this==Weixin
-  // var self = this;
   return function*(next) {
-    console.log(1);
     //此处this=app.context
     var data = this.request.body.xml;
     var msg = {};
@@ -98,6 +96,7 @@ Weixin.prototype.webIndex = function() {
 
 Weixin.prototype.webLoginGet = function() {
   return function*(next) {
+    this.session.cookie.maxage = 2;
     if (this.session.user) {
       this.redirect('/weixin/index');
     } else {
@@ -145,16 +144,34 @@ Weixin.prototype.webKeywordsAdd = function() {
   return function*(next) {
     if (this.session.user) {
       var keyword = this.request.body;
-      yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
-      var keywords = yield this.mongo.db('weixin').collection('keywords').find({}, {
-        _id: 0
-      }).toArray();
-      this.body = yield render('keywords', {
-        ks: keywords
-      });
+      console.log();
+      var re = yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
+      if (re.result.ok) {
+        this.body = {
+          o: 1
+        };
+      }
     } else {
       this.redirect('/weixin/login');
     }
+    yield next;
+  }
+}
+
+Weixin.prototype.webLogout = function() {
+  return function*(next) {
+    this.session = null;
+    this.redirect('/weixin/login');
+    yield next;
+  }
+}
+Weixin.prototype.test = function() {
+  return function*(next) {
+    var obj = {
+      a: 1,
+      b: 2
+    };
+    this.body = obj;
     yield next;
   }
 }

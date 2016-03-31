@@ -20,7 +20,8 @@ router.get('/login', Weixin.webLoginGet());
 router.post('/login', bodyParser(), Weixin.webLoginPost());
 router.get('/keywords', Weixin.webKeywordsGet());
 router.post('/addK', bodyParser(), Weixin.webKeywordsAdd());
-
+router.get('/logout', Weixin.webLogout());
+router.get('/test', Weixin.test());
 
 // 使用./public下的静态文件
 app.use(serve(__dirname + '/public', {
@@ -29,7 +30,14 @@ app.use(serve(__dirname + '/public', {
 
 app.keys = ['keys', 'keykeys'];
 app.use(session({
-  store: redisStore()
+  store: redisStore(),
+  cookie: {
+    httpOnly: true,
+    path: '/',
+    overwrite: true,
+    signed: true,
+    maxAge: null //one hour in ms
+  }
 }));
 
 app.use(logger());
@@ -40,7 +48,8 @@ app.use(mongo({
 app.use(router.routes())
   .use(router.allowedMethods());
 
-app.on('error', function(err) {
-  console.log(err);
-})
+app.on('error', function(err, ctx) {
+  console.error('server error', err, ctx);
+});
+
 app.listen(3333);

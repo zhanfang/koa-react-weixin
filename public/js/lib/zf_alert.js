@@ -1,7 +1,7 @@
 /**
 * 自定义alert方法
 */
-(function(window) {
+var zfAlert = (function(window) {
   'use strict';
   var doc,
     mask,
@@ -62,7 +62,7 @@
     doc.getElementById('zfAlert').style.opacity = "0";
   }
 
-  init = function msgbox(content, func, height, width) {
+  init = function msgbox(content, func) {
     var close,
       submit;
     //创建遮窗
@@ -82,6 +82,9 @@
 
   };
 
-  window.zfAlert = init;
+  return {
+    init: init,
+    remove: remove
+  };
 
 })(window);

@@ -13,7 +13,7 @@
       <th>操作</th>
     </tr>
   </thead>
-  <tbody>
+  <tbody id="tb">
     {% for k in ks %}
       <tr class="success">
         <td>{{ loop.index }}</td>
@@ -28,4 +28,5 @@
 {% block script %}
 <script src="js/lib/zf_alert.js" charset="utf-8"></script>
 <script src="js/keywords.js" charset="utf-8"></script>
+
 {% endblock %}
