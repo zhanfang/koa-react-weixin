@@ -28,6 +28,10 @@ app.use(serve(__dirname + '/public', {
   proxy: '/weixin'
 }));
 
+app.use(function*() {
+  console.log(this.req);
+});
+
 app.keys = ['keys', 'keykeys'];
 app.use(session({
   store: redisStore(),
@@ -44,7 +48,7 @@ app.use(logger());
 app.use(mongo({
   db: 'weixin',
 }));
-// app.use(xmlParser());
+
 app.use(router.routes())
   .use(router.allowedMethods());
 

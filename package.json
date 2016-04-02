@@ -24,5 +24,11 @@
     "koa-static": "^2.0.0",
     "koa-xml-body": "^1.0.3",
     "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "iconv-lite": "^0.4.13",
+    "mocha": "^2.4.5",
+    "should": "^8.3.0",
+    "supertest": "^1.2.0"
   }
 }
