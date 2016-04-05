@@ -26,6 +26,81 @@ describe('to', function() {
       };
       to.toJs(data).should.eql(msg);
     });
+    it('data is image', function() {
+      const data = {
+        ToUserName: ['toUser'],
+        FromUserName: ['fromUser'],
+        CreateTime: ['1348831860'],
+        MsgType: ['image'],
+        PicUrl: ['http://baidu.com'],
+        MediaId: ['media_id'],
+        MsgId: ['1234567890123456']
+      };
+      const msg = {
+        ToUserName: 'toUser',
+        FromUserName: 'fromUser',
+        CreateTime: '1348831860',
+        MsgType: 'image',
+        PicUrl: 'http://baidu.com',
+        MediaId: 'media_id',
+        MsgId: '1234567890123456'
+      };
+      to.toJs(data).should.eql(msg);
+    });
+    it('data is voice', function() {
+      const data = {
+        ToUserName: ['toUser'],
+        FromUserName: ['fromUser'],
+        CreateTime: ['1348831860'],
+        MsgType: ['voice'],
+        MediaId: ['media_id'],
+        Format: ['Format'],
+        MsgId: ['1234567890123456']
+      };
+      const msg = {
+        ToUserName: 'toUser',
+        FromUserName: 'fromUser',
+        CreateTime: '1348831860',
+        MsgType: 'voice',
+        MediaId: 'media_id',
+        Format: 'Format',
+        MsgId: '1234567890123456'
+      };
+      to.toJs(data).should.eql(msg);
+    });
+    it('data is subscribe event', function() {
+      const data = {
+        ToUserName: ['toUser'],
+        FromUserName: ['fromUser'],
+        CreateTime: ['1348831860'],
+        MsgType: ['event'],
+        Event: ['subscribe']
+      };
+      const msg = {
+        ToUserName: 'toUser',
+        FromUserName: 'fromUser',
+        CreateTime: '1348831860',
+        MsgType: 'event',
+        Event: 'subscribe'
+      };
+      to.toJs(data).should.eql(msg);
+    });
+    it('data is other type', function() {
+      const data = {
+        ToUserName: ['toUser'],
+        FromUserName: ['fromUser'],
+        CreateTime: ['1348831860'],
+        MsgType: ['video'],
+        Event: ['subscribe']
+      };
+      const msg = {
+        ToUserName: 'toUser',
+        FromUserName: 'fromUser',
+        CreateTime: '1348831860',
+        MsgType: 'video',
+      };
+      to.toJs(data).should.eql(msg);
+    });
   });
 
   describe('toxml', function() {

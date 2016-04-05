@@ -28,7 +28,47 @@ describe('routes', function() {
         .use(router.allowedMethods());
 
       app.use(function*() {
-        this.body.should.match(ret);
+        this.body.should.eql(ret);
+      });
+      request(app.listen())
+        .post('/weixin/')
+        .set('Content-Type', 'text/xml')
+        .send(recv)
+        .expect(200, done);
+    });
+    it('subscribe', function(done) {
+      const recv = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>123456789</CreateTime><MsgType><![CDATA[event]]></MsgType><Event><![CDATA[subscribe]]></Event></xml>";
+      const ret = "<xml><ToUserName><![CDATA[fromUser]]></ToUserName><FromUserName><![CDATA[toUser]]></FromUserName><CreateTime>123456789</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[这是默认回复]]></Content></xml>";
+      let app = koa();
+      router.post('/', xmlParser(), r.handler());
+      app.use(mongo({
+        db: 'weixin',
+      }));
+      app.use(router.routes())
+        .use(router.allowedMethods());
+
+      app.use(function*() {
+        this.body.should.eql(ret);
+      });
+      request(app.listen())
+        .post('/weixin/')
+        .set('Content-Type', 'text/xml')
+        .send(recv)
+        .expect(200, done);
+    });
+    it('other type', function(done) {
+      const recv = "<xml><ToUserName><![CDATA[toUser]]></ToUserName><FromUserName><![CDATA[fromUser]]></FromUserName><CreateTime>1357290913</CreateTime><MsgType><![CDATA[shortvideo]]></MsgType><MediaId><![CDATA[media_id]]></MediaId><ThumbMediaId><![CDATA[thumb_media_id]]></ThumbMediaId><MsgId>1234567890123456</MsgId></xml>";
+      const ret = "<xml><ToUserName><![CDATA[fromUser]]></ToUserName><FromUserName><![CDATA[toUser]]></FromUserName><CreateTime>1357290913</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[这是默认回复]]></Content></xml>";
+      let app = koa();
+      router.post('/', xmlParser(), r.handler());
+      app.use(mongo({
+        db: 'weixin',
+      }));
+      app.use(router.routes())
+        .use(router.allowedMethods());
+
+      app.use(function*() {
+        this.body.should.eql(ret);
       });
       request(app.listen())
         .post('/weixin/')

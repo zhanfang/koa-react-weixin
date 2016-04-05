@@ -23,12 +23,15 @@ exports.handler = function() {
       case 'voice':
         break;
       case 'event':
-        switch (msg.Event) {
-          case 'subscribe':
-            yield weixin.default(msg)
-            break;
-          default:
-        }
+        yield weixin.default(msg)
+        // switch (msg.Event) {
+        //   case 'subscribe':
+        //     yield weixin.default(msg)
+        //     break;
+        //   default:
+        //     yield weixin.default(msg)
+        //     break;
+        // }
         break;
       default:
         yield weixin.default(msg);
