@@ -1,3 +1,5 @@
+var debug = require('debug')('wx');
+var logger = require('./log/logger');
 var render = require('./lib/render');
 var to = require('./lib/to');
 var weixin = require('./lib/weixin');
@@ -13,17 +15,19 @@ exports.handler = function() {
     //此处this=app.context
     var data = this.request.body.xml;
     var msg = to.toJs(data)
-    yield this.mongo.db('weixin').collection('log_rev').insert(msg);
+    var reMsg;
+    logger.log(data);
+    debug('user send msg is %s', msg);
     switch (msg.MsgType) {
       case 'text':
-        yield weixin.text(msg);
+        reMsg = yield weixin.text(msg);
         break;
       case 'image':
         break;
       case 'voice':
         break;
       case 'event':
-        yield weixin.default(msg)
+        reMsg = yield weixin.default(msg)
         // switch (msg.Event) {
         //   case 'subscribe':
         //     yield weixin.default(msg)
@@ -34,9 +38,13 @@ exports.handler = function() {
         // }
         break;
       default:
-        yield weixin.default(msg);
+        reMsg = yield weixin.default(msg);
         break;
     }
+    reMsg = to.toXml(reMsg);
+    this.body = reMsg;
+    debug('user resv msg is %s', reMsg);
+    logger.log(reMsg);
     yield next;
   };
 };

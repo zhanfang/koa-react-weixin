@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly",
-    "isHtml": "istanbul report --root coverage --format html"
+    "isHtml": "istanbul report --root coverage --format html",
+    "debug": "DEBUG=wx NODE_ENV=local node index.js"
   },
   "repository": {
     "type": "git",
@@ -27,11 +28,13 @@
     "swig": "^1.4.2"
   },
   "devDependencies": {
+    "debug": "^2.2.0",
     "iconv-lite": "^0.4.13",
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "muk": "^0.4.0",
     "should": "^8.3.0",
-    "supertest": "^1.2.0"
+    "supertest": "^1.2.0",
+    "winston": "^2.2.0"
   }
 }

@@ -1,3 +1,4 @@
+var logger = require('./log/logger');
 var koa = require('koa');
 var Router = require('koa-router');
 var serve = require('koa-static');
@@ -49,6 +50,7 @@ app.use(router.routes())
 
 app.on('error', function(err, ctx) {
   console.error('server error', err);
+  logger.err(err, ctx);
 });
 
 app.listen(3333);
