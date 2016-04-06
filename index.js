@@ -8,6 +8,7 @@ var redisStore = require('koa-redis');
 var bodyParser = require('koa-bodyparser');
 var xmlParser = require('koa-xml-body').default; // note the default
 var mongo = require('koa-mongo');
+var compress = require("koa-compress");
 var app = koa();
 var r = require('./routes');
 var router = new Router({
@@ -23,13 +24,9 @@ router.get('/keywords', r.getKs());
 router.post('/addK', bodyParser(), r.addK());
 router.get('/logout', r.logout());
 
-// 使用./public下的静态文件
-app.use(serve(__dirname + '/public', {
-  proxy: '/weixin'
-}));
-
-app.keys = ['keys', 'keykeys'];
+app.keys = ['wx', 'zf'];
 app.use(session({
+  key: 'wx.sid',
   store: redisStore(),
   cookie: {
     httpOnly: true,
@@ -38,6 +35,11 @@ app.use(session({
     signed: true,
     maxAge: null //one hour in ms
   }
+}));
+
+// 使用./public下的静态文件
+app.use(serve(__dirname + '/public', {
+  proxy: '/weixin'
 }));
 
 app.use(logger());
@@ -52,5 +54,5 @@ app.on('error', function(err, ctx) {
   console.error('server error', err);
   logger.err(err, ctx);
 });
-
+app.use(compress());
 app.listen(3333);
