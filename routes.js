@@ -60,6 +60,7 @@ exports.getIndex = function() {
   };
 };
 
+
 exports.getLogin = function() {
   return function*(next) {
     if (this.session.user) {
