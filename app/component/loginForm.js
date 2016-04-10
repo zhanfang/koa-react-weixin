@@ -1,8 +1,6 @@
 import React , { Component } from 'react';
-import { Form, Input, Button, Checkbox } from 'antd';
+import { Row, Col, Form, Input, Button, Checkbox } from 'antd';
 import request from 'superagent';
-import history from 'history';
-
 
 const FormItem = Form.Item;
 
@@ -24,6 +22,8 @@ class LoginForm extends Component {
   render() {
     const {getFieldProps} = this.props.form;
     return (
+      <Row className="content">
+        <Col span="12" offset="7">
       <Form inline onSubmit={this.handleSubmit}>
         <FormItem
       label="账户：">
@@ -37,6 +37,8 @@ class LoginForm extends Component {
         </FormItem>
         <Button type="primary" htmlType="submit">登录</Button>
       </Form>
+    </Col>
+      </Row>
       );
   }
 }

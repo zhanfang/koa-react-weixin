@@ -1,12 +1,10 @@
 import React , { Component, PropTypes } from 'react';
-import { Row, Col } from 'antd';
-import LoginForm from './loginForm';
+import LoginForm from './LoginForm';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as LoginActions from '../actions/login';
 import 'antd/style/index.less';
 import '../less/login.less'
-
 
 class Login extends Component {
   constructor(props) {
@@ -15,15 +13,8 @@ class Login extends Component {
   render() {
     //state改变会重新渲染这
     const {login, actions} = this.props;
-
     return (
-      <div className="content">
-        <Row>
-          <Col span="12" offset="6">
-            <LoginForm login={actions.login}/>
-          </Col>
-        </Row>
-      </div>
+      <LoginForm login={actions.login}/>
       );
   }
 }

@@ -5,7 +5,7 @@ import '../less/menu.less';
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;
 
-class MenuWx extends Component {
+class NavBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,4 +53,4 @@ class MenuWx extends Component {
   }
 }
 
-export default MenuWx;
+export default NavBar;

@@ -1,8 +1,7 @@
 import React , { Component } from 'react';
 import { Col, Row, Button } from 'antd';
-import IndexTable from './indexTable';
-import MenuWx from './menuWx';
-import KeyModal from './keyModal';
+import IndexTable from './index/IndexTable';
+import KeyModal from './index/KeyModal';
 import 'antd/style/index.less';
 import '../less/index.less';
 
@@ -13,7 +12,6 @@ class Index extends Component {
   render() {
     return (
       <Row>
-        <MenuWx/>
         <Col className="table" span="22" offset="1">
           <KeyModal/>
           <IndexTable/>
