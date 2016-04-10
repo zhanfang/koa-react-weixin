@@ -165,7 +165,6 @@
 	// `__INITIAL_STATE__` 来自服务器端渲染，下一部分细说
 	// const initialState = window.__INITIAL_STATE__;
 
-	//createBrowserHistory() 这个表示与浏览器
 	_reactDom2['default'].render(_react2['default'].createElement(
 	  _reactRedux.Provider,
 	  { store: store },
@@ -174,7 +173,7 @@
 	    { history: _reactRouter.browserHistory },
 	    _react2['default'].createElement(
 	      _reactRouter.Route,
-	      { path: '/weixin' },
+	      { path: '/' },
 	      _react2['default'].createElement(_reactRouter.Route, { path: 'login', component: _componentLoginJsx2['default'] }),
 	      _react2['default'].createElement(_reactRouter.Route, { path: 'index', component: _componentIndexJsx2['default'] })
 	    )

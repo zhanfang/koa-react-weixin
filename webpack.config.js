@@ -2,7 +2,7 @@ var path = require('path');
 
 module.exports = {
   entry: [
-    path.resolve(__dirname, 'app/app.jsx')
+    path.resolve(__dirname, 'app/main.js')
   ],
   output: {
     path: path.resolve(__dirname, 'views'),
@@ -11,7 +11,7 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js[x]?$/,
+        test: /\.js$/,
         loader: 'jsx-loader!babel',
         include: /app/
       },

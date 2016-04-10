@@ -52,7 +52,8 @@ exports.handler = function() {
 exports.getIndex = function() {
   return function*(next) {
     if (this.session.user) {
-      this.body = yield render('index');
+      debug('get index');
+      this.body = yield render('login');
     } else {
       this.redirect('/weixin/login');
     }
@@ -75,11 +76,13 @@ exports.getLogin = function() {
 exports.postLogin = function() {
   return function*(next) {
     var data = this.request.body;
+    debug('login post data is %s', data.toString());
     var user = yield this.mongo.db('weixin').collection('users').findOne(data, {
       _id: 0,
       password: 0
     });
     if (user) {
+      debug('login session user is %s', user.toString());
       this.session.user = user;
       this.redirect('/weixin/index');
     } else {
