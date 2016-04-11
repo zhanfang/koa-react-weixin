@@ -5,7 +5,7 @@ module.exports = {
     path.resolve(__dirname, 'app/main.js')
   ],
   output: {
-    path: path.resolve(__dirname, 'views'),
+    path: path.resolve(__dirname, 'public/js'),
     filename: 'bundle.js'
   },
   module: {
