@@ -6,10 +6,9 @@ import Index from './component/Index';
 import Page from './component/Page';
 
 export default (
-<Route component={App}>
-    <Route path='/' component={Login} />
-    <Route path='/login' component={Login} />
-    <Route path='/index' component={Index} />
-    <Route path='/page' component={Page} />
+<Route path="/weixin" component={App}>
+    <Route path='login' component={Login} />
+    <Route path='index' component={Index} />
+    <Route path='page' component={Page} />
   </Route>
 );

@@ -53,7 +53,7 @@ exports.getIndex = function() {
   return function*(next) {
     if (this.session.user) {
       debug('get index');
-      this.body = yield render('login');
+      this.body = yield render('index');
     } else {
       this.redirect('/weixin/login');
     }
@@ -67,7 +67,7 @@ exports.getLogin = function() {
     if (this.session.user) {
       this.redirect('/weixin/index');
     } else {
-      this.body = yield render('login');
+      this.body = yield render('index');
     }
     yield next;
   };

@@ -2,7 +2,7 @@ import React , { Component } from 'react';
 import { Col, Row, Button } from 'antd';
 import IndexTable from './index/IndexTable';
 import KeyModal from './index/KeyModal';
-// import '../less/index.less';
+import '../less/index.less';
 
 class Index extends Component {
   constructor(props) {
