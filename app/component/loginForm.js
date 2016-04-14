@@ -16,12 +16,11 @@ class LoginForm extends Component {
     //   });
 
     this.props.login(user)
-    console.log('收到表单值：', this.props.form.getFieldsValue());
+    console.log('收到表单值：', user);
   }
 
   render() {
     const {getFieldProps} = this.props.form;
-    console.log(getFieldProps);
     return (
       <Row className="content">
         <Col span="12" offset="7">

@@ -1,13 +1,20 @@
 var path = require('path');
+var webpack = require('webpack');
 
 module.exports = {
+  devtool: 'cheap-module-eval-source-map',
   entry: [
-    path.resolve(__dirname, 'app/main.js')
+    'webpack-hot-middleware/client',
+    './app/main'
   ],
   output: {
     path: path.resolve(__dirname, 'public/js'),
     filename: 'bundle.js'
   },
+  plugins: [
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.HotModuleReplacementPlugin()
+  ],
   module: {
     loaders: [
       {

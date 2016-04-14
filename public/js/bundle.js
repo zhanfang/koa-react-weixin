@@ -75702,7 +75702,6 @@
 	    key: 'render',
 	    value: function render() {
 	      //state改变会重新渲染这
-	      console.log(this.props);
 	      var _props = this.props;
 	      var login = _props.login;
 	      var actions = _props.actions;
@@ -95722,8 +95721,8 @@
 
 	var initState = {
 	  user: {
-	    username: 'zhanfang',
-	    password: 'zhanfang123'
+	    // username: 'zhanfang',
+	    // password: 'zhanfang123'
 	  }
 	};
 

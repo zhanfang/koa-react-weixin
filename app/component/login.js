@@ -8,7 +8,6 @@ import '../less/login.less'
 class Login extends Component {
   render() {
     //state改变会重新渲染这
-    console.log(this.props);
     const {login, actions} = this.props;
     return (
       <LoginForm login={actions.login}/>

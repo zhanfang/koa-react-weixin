@@ -55,6 +55,8 @@
     "iconv-lite": "^0.4.13",
     "istanbul": "^0.4.2",
     "jsx-loader": "^0.13.2",
+    "koa-webpack-dev-middleware": "^1.2.0",
+    "koa-webpack-hot-middleware": "^1.0.3",
     "less": "^2.6.1",
     "less-loader": "^2.2.3",
     "mocha": "^2.4.5",

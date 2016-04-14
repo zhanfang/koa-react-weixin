@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import { Row, Col, Menu, Icon } from 'antd';
 import '../less/menu.less';
 
@@ -30,7 +31,7 @@ class NavBar extends Component {
           <Icon type="mail" />关键字回复
         </Menu.Item>
         <Menu.Item key="app">
-          <Icon type="appstore" />文章
+          <Link to='/page'>文章</Link>
         </Menu.Item>
         <SubMenu title={<span><Icon type="setting" />导航 - 子菜单</span>}>
           <MenuItemGroup title="分组1">

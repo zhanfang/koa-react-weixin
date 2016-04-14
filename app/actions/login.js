@@ -1,7 +1,7 @@
 
-export function login(text) {
+export function loginSuccess(msg) {
   return {
-    type: 'LOGIN',
-    text: text
+    type: 'SUCCESS',
+    msg: msg
   };
 }

@@ -10,12 +10,19 @@ var bodyParser = require('koa-bodyparser');
 var xmlParser = require('koa-xml-body').default; // note the default
 var mongo = require('koa-mongo');
 var compress = require("koa-compress");
+var webpack = require('webpack');
+var webpackDevMiddleware = require('koa-webpack-dev-middleware');
+var webpackHotMiddleware = require('koa-webpack-hot-middleware');
+var config = require('./webpack.config')
 
 var app = koa();
 var r = require('./routes');
 var router = new Router({
   prefix: '/weixin'
 });
+
+var compiler = webpack(config);
+
 
 //路由配置
 router.post('/', xmlParser(), r.handler());
@@ -49,7 +56,6 @@ app.use(mongo({
   db: 'weixin',
 }));
 
-
 app.use(router.routes())
   .use(router.allowedMethods());
 
@@ -58,4 +64,12 @@ app.on('error', function(err, ctx) {
   logger.err(err, ctx);
 });
 app.use(compress());
+
+app.use(webpackDevMiddleware(compiler, {
+  noInfo: true,
+  publicPath: config.output.publicPath
+}));
+app.use(webpackHotMiddleware(compiler));
+
+
 app.listen(3333);
