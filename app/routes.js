@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, RouterContext } from 'react-router';
-import App from './component/App';
+import { Route } from 'react-router';
+import App from './containers/App';
 import Login from './component/Login';
 import Index from './component/Index';
 import Page from './component/Page';

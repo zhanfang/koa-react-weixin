@@ -10,6 +10,7 @@ var bodyParser = require('koa-bodyparser');
 var xmlParser = require('koa-xml-body').default; // note the default
 var mongo = require('koa-mongo');
 var compress = require("koa-compress");
+
 var webpack = require('webpack');
 var webpackDevMiddleware = require('koa-webpack-dev-middleware');
 var webpackHotMiddleware = require('koa-webpack-hot-middleware');
@@ -22,7 +23,6 @@ var router = new Router({
 });
 
 var compiler = webpack(config);
-
 
 //路由配置
 router.post('/', xmlParser(), r.handler());

@@ -1,4 +1,4 @@
-import React , { Component } from 'react';
+import React , { Component, PropTypes } from 'react';
 import { Row, Col, Form, Input, Button, Checkbox } from 'antd';
 import request from 'superagent';
 
@@ -7,16 +7,8 @@ const FormItem = Form.Item;
 class LoginForm extends Component {
   handleSubmit(e) {
     e.preventDefault();
-    var user = this.props.form.getFieldsValue();
-    // request.post('/weixin/login')
-    //   .type('form')
-    //   .send(user)
-    //   .end(function(err, data) {
-    //     window.location.href = '/weixin/index';
-    //   });
-
-    this.props.login(user)
-    console.log('收到表单值：', user);
+    let user = this.props.form.getFieldsValue();
+    this.props.fetchLogin(user)
   }
 
   render() {
@@ -41,6 +33,10 @@ class LoginForm extends Component {
       </Row>
       );
   }
+}
+
+LoginForm.propTypes = {
+  fetchLogin: PropTypes.func.isRequired
 }
 
 export default LoginForm = Form.create()(LoginForm);

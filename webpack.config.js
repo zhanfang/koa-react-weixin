@@ -5,15 +5,17 @@ module.exports = {
   devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './app/main'
+    './app/main',
   ],
   output: {
     path: path.resolve(__dirname, 'public/js'),
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/public/js'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoErrorsPlugin()
   ],
   module: {
     loaders: [
