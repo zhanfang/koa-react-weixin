@@ -87,7 +87,7 @@ exports.postLogin = function() {
       this.session.user = user.username;
       this.redirect('/weixin/index');
     } else {
-      this.body = yield render('index');
+      this.status = 404;
     }
     yield next;
   };

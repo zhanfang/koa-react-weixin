@@ -7,7 +7,7 @@ import '../less/login.less'
 
 class Login extends Component {
   componentWillReceiveProps(nextProps) {
-    if (nextProps.login !== this.props.login) {
+    if (nextProps.login.user !== this.props.login.user) {
       browserHistory.push(`/weixin/index`);
     }
   }
