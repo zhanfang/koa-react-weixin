@@ -12,6 +12,9 @@ export default class Root extends Component {
         <div>
           <Router history={history} routes={routes} />
           <DevTools />
+            <h1>
+              Move the DevTools with Ctrl+W or hide them with Ctrl+H.
+            </h1>
         </div>
       </Provider>
     )

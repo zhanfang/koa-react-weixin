@@ -12,9 +12,6 @@ class App extends Component {
         <NavBar/>
         {this.props.children}
         <Footer></Footer>
-        <p>
-          Move the DevTools with Ctrl+W or hide them with Ctrl+H.
-        </p>
       </div>
       );
   }

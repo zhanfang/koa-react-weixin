@@ -99,9 +99,7 @@ exports.getKs = function() {
       var keywords = yield this.mongo.db('weixin').collection('keywords').find({}, {
         _id: 0
       }).toArray();
-      this.body = yield render('keywords', {
-        ks: keywords
-      });
+      this.body = keywords;
     } else {
       this.redirect('/weixin/login');
     }

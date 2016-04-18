@@ -1,3 +1,7 @@
 export const REQUEST_LOGIN = 'REQUEST_LOGIN';
 export const SUCCESS_LOGIN = 'SUCCESS_LOGIN';
 export const FAILURE_LOGIN = 'FAILURE_LOGIN';
+export const REQUEST_KEY = 'REQUEST_KEY';
+export const SUCCESS_KEY = 'SUCCESS_KEY';
+export const FAILURE_KEY = 'FAILURE_KEY';
+export const RESET_ERROR_MESSAGE = 'RESET_ERROR_MESSAGE';

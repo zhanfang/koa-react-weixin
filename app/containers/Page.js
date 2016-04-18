@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'antd';
-import PageEditor from './pageEditor';
+import PageEditor from '../components/pageEditor';
 
 export default class Page extends Component {
   render() {
