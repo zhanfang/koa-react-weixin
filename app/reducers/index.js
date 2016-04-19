@@ -25,7 +25,7 @@ function entities(state = {
       // return Object.assign({}, state, {
       //   keys: keys,
       // });
-      keys = keys.filter((key, index) => index == !action.payload);
+      keys = keys.filter((key, index) => index !== action.payload);
       return Object.assign({}, state, {
         keys: keys,
       });
