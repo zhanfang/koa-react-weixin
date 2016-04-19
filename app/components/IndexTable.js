@@ -1,5 +1,5 @@
 import React , { Component } from 'react';
-import { Table } from 'antd';
+import { Table, message } from 'antd';
 
 class IndexTable extends Component {
   constructor(props) {
@@ -7,13 +7,18 @@ class IndexTable extends Component {
   }
   handleDel(key, id) {
     this.props.delKey(key, id);
-  // this.props.fetchKey();
+  }
+  componentWillReceiveProps(nextProps) {
+    if (this.props.keys.length !== 0) {
+      if (nextProps.keys.length > this.props.keys.length) {
+        message.success('添加成功！');
+      } else if (nextProps.keys.length < this.props.keys.length) {
+        message.success('删除成功！');
+      }
+    }
   }
   render() {
     const {keys} = this.props;
-    console.log('---------------');
-    console.log(keys);
-    console.log('---------------');
     const columns = [
       {
         title: 'id',

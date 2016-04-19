@@ -7,9 +7,10 @@ import 'antd/style/index.less';
 
 class App extends Component {
   render() {
+    const {user} = this.props;
     return (
       <div>
-        <NavBar/>
+        <NavBar />
         {this.props.children}
         <Footer></Footer>
       </div>
@@ -19,8 +20,7 @@ class App extends Component {
 
 function mapStateToProps(state, ownProps) {
   return {
-    errorMessage: state.errorMessage,
-    inputValue: ownProps.location.pathname.substring(1)
+    user: state.user
   }
 }
 

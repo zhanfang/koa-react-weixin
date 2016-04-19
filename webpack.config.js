@@ -1,9 +1,15 @@
 var path = require('path');
 var webpack = require('webpack');
+var merge = require('webpack-merge');
+var CleanPlugin = require('clean-webpack-plugin');
 var node_modules_dir = path.join(__dirname, 'node_modules');
+var node_modules = path.resolve(__dirname, 'node_modules');
 var deps = [
   // 'react/dist/react.min.js',
   // 'react-dom/dist/react-dom.min.js',
+  'react-router/lib/index.js',
+  'react-router-redux/lib/index.js',
+  'react-router/lib/index.js',
   'redux/dist/redux.min.js',
   'react-redux/dist/react-redux.min.js',
   'redux-thunk/dist/redux-thunk.min.js'
@@ -12,7 +18,6 @@ var deps = [
 var env = process.env.NODE_ENV;
 
 var config = {
-  devtool: 'cheap-module-eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
     './app/main',
@@ -27,9 +32,7 @@ var config = {
     'react-dom': 'ReactDOM'
   },
   plugins: [
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
     })
@@ -38,12 +41,15 @@ var config = {
     alias: {}
   },
   module: {
-    noParse: [],
+    noParse: [
+      path.resolve(node_modules, 'redux/dist/redux.min.js'),
+      path.resolve(node_modules, 'redux-thunk/dist/redux-thunk.min.js'),
+    ],
     loaders: [
       {
         test: /\.js$/,
         loader: 'jsx-loader!babel',
-        exclude: /node_modules/,
+        exclude: [node_modules_dir],
         include: /app/
       },
       {
@@ -53,9 +59,6 @@ var config = {
       {
         test: /\.css/,
         loader: 'style!css'
-      }, {
-        test: /\.(png|jpg)$/,
-        loader: 'url?limit=25000'
       }
     ]
   }
@@ -68,21 +71,37 @@ var config = {
 deps.forEach(function(dep) {
   var depPath = path.resolve(node_modules_dir, dep);
   config.resolve.alias[dep.split(path.sep)[0]] = depPath;
-// config.module.noParse.push(depPath);
+// var parsepath = path.resolve(node_modules, dep);
+// config.module.noParse.push(parsepath);
 });
 
+if (env === 'start' || !env) {
+  config = merge(config, {
+    devtool: 'cheap-module-eval-source-map',
+    plugins: [
+      new webpack.NoErrorsPlugin(),
+      new webpack.optimize.OccurenceOrderPlugin()
+    ]
+  });
+}
+
+
 if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        screw_ie8: true,
-        warnings: false
-      }
-    })
-  )
+  config = merge(config, {
+    plugins: [
+      new webpack.optimize.UglifyJsPlugin({
+        compressor: {
+          pure_getters: true,
+          unsafe: true,
+          unsafe_comps: true,
+          screw_ie8: true,
+          warnings: false
+        },
+        sourceMap: false
+      })
+    ],
+  });
+
 }
 
 module.exports = config
