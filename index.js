@@ -30,7 +30,8 @@ router.get('/index', r.getIndex());
 router.get('/login', r.getLogin());
 router.post('/login', bodyParser(), r.postLogin());
 router.get('/keywords', r.getKs());
-router.post('/addK', bodyParser(), r.addK());
+router.post('/addkey', bodyParser(), r.addkey());
+router.post('/delkey', bodyParser(), r.delkey());
 router.get('/logout', r.logout());
 
 app.keys = ['wx', 'zf'];

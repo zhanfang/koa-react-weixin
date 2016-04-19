@@ -107,14 +107,27 @@ exports.getKs = function() {
   };
 }
 
-exports.addK = function() {
+exports.addkey = function() {
   return function*(next) {
     if (this.session.user) {
       var keyword = this.request.body;
       var re = yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
-      this.body = re.result;
+      this.body = 200;
     } else {
       this.redirect('/weixin/login');
+    }
+    yield next;
+  };
+}
+
+exports.delkey = function() {
+  return function*(next) {
+    if (this.session.user) {
+      var key = this.request.body;
+      yield this.mongo.db('weixin').collection('keywords').deleteOne(key);
+      this.status = 200;
+    } else {
+      this.status = 404;
     }
     yield next;
   };

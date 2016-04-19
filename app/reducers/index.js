@@ -2,9 +2,7 @@ import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import merge from 'lodash/merge';
 import * as ActionTypes from '../constants';
-import login from './login';
-import keys from './key';
-import { SUCCESS_LOGIN, SUCCESS_KEY } from '../constants';
+import { SUCCESS_LOGIN, SUCCESS_KEY, SUCCESS_DELKEY, SUCCESS_ADDKEY } from '../constants';
 
 function entities(state = {
     user: {},
@@ -21,14 +19,37 @@ function entities(state = {
         keys: action.payload,
       });
       break;
+    case SUCCESS_DELKEY:
+      let keys = state.keys;
+      // keys.splice(action.payload, 1);
+      // return Object.assign({}, state, {
+      //   keys: keys,
+      // });
+      keys = keys.filter((key, index) => index == !action.payload);
+      return Object.assign({}, state, {
+        keys: keys,
+      });
+      break;
+    case SUCCESS_ADDKEY:
+      // let data = state.keys;
+      // state.keys.splice(0, 0, action.payload);
+      let data = [action.payload, ...state.keys];
+      return Object.assign({}, state, {
+        keys: data,
+      });
+      // console.log('data');
+      // console.log(data);
+      // console.log('data');
+      // return Object.assign({}, state, {
+      //   keys: [{
+      //     key: '心累',
+      //     val: '心累'
+      //   }],
+      // });
+      break;
     default:
-
+      return state;
   }
-  // if (action.response && action.response.entities) {
-  //   return merge({}, state, action.response.entities)
-  // }
-
-  return state
 }
 
 // Updates error message to notify about the failed fetches.

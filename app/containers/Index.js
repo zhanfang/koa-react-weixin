@@ -1,38 +1,43 @@
-import React , { Component } from 'react';
-import { Col, Row, Button } from 'antd';
+import React , { Component, PropTypes } from 'react';
+import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
-import { fetchKey } from '../actions';
+import { fetchKey, delKey, addKey } from '../actions';
 import IndexTable from '../components/IndexTable';
 import KeyModal from '../components/KeyModal';
 import '../less/index.less';
 
 class Index extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentWillMount() {
     this.props.fetchKey();
   }
   render() {
-    const {keys} = this.props;
+    const {keys, delKey, fetchKey, addKey} = this.props;
     return (
       <Row>
         <Col className="table" span="22" offset="1">
-          <KeyModal/>
-          <IndexTable keys={keys}/>
+          <KeyModal addKey={addKey} keys={keys}/>
+          <IndexTable keys={keys} delKey={delKey}/>
         </Col>
       </Row>
       );
   }
 }
 
+Index.proptypes = {
+  keys: PropTypes.array.isRequired,
+  fetchKey: PropTypes.func.isRequired,
+  delKey: PropTypes.func.isRequired,
+  addKey: PropTypes.func.isRequired
+}
+
 function mapStateToProps(state, props) {
-  const keys = state.keys;
   return {
-    keys: keys
+    keys: state.entities.keys
   }
 }
 
 export default connect(mapStateToProps, {
-  fetchKey
+  fetchKey,
+  delKey,
+  addKey
 })(Index);

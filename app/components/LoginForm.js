@@ -1,6 +1,5 @@
 import React , { Component, PropTypes } from 'react';
 import { Row, Col, Form, Input, Button, Checkbox } from 'antd';
-import request from 'superagent';
 
 const FormItem = Form.Item;
 
