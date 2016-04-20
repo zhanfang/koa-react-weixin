@@ -31,21 +31,10 @@ function entities(state = {
       });
       break;
     case SUCCESS_ADDKEY:
-      // let data = state.keys;
-      // state.keys.splice(0, 0, action.payload);
       let data = [action.payload, ...state.keys];
       return Object.assign({}, state, {
         keys: data,
       });
-      // console.log('data');
-      // console.log(data);
-      // console.log('data');
-      // return Object.assign({}, state, {
-      //   keys: [{
-      //     key: '心累',
-      //     val: '心累'
-      //   }],
-      // });
       break;
     default:
       return state;

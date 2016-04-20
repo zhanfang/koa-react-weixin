@@ -3,10 +3,9 @@ var webpack = require('webpack');
 var merge = require('webpack-merge');
 var CleanPlugin = require('clean-webpack-plugin');
 var node_modules_dir = path.join(__dirname, 'node_modules');
-var node_modules = path.resolve(__dirname, 'node_modules');
 var deps = [
   // 'react/dist/react.min.js',
-  // 'react-dom/dist/react-dom.min.js',
+  'react-json-tree/lib/index.js',
   'react-router/lib/index.js',
   'react-router-redux/lib/index.js',
   'react-router/lib/index.js',
@@ -18,15 +17,6 @@ var deps = [
 var env = process.env.NODE_ENV;
 
 var config = {
-  entry: [
-    'webpack-hot-middleware/client',
-    './app/main',
-  ],
-  output: {
-    path: path.resolve(__dirname, 'public/js'),
-    filename: 'bundle.js',
-    publicPath: '/public/js'
-  },
   externals: {
     'react': 'React',
     'react-dom': 'ReactDOM'
@@ -35,15 +25,16 @@ var config = {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(env)
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
   ],
   resolve: {
     alias: {}
   },
   module: {
     noParse: [
-      path.resolve(node_modules, 'redux/dist/redux.min.js'),
-      path.resolve(node_modules, 'redux-thunk/dist/redux-thunk.min.js'),
+      path.resolve(node_modules_dir, 'redux/dist/redux.min.js'),
+      path.resolve(node_modules_dir, 'redux-thunk/dist/redux-thunk.min.js'),
     ],
     loaders: [
       {
@@ -71,12 +62,20 @@ var config = {
 deps.forEach(function(dep) {
   var depPath = path.resolve(node_modules_dir, dep);
   config.resolve.alias[dep.split(path.sep)[0]] = depPath;
-// var parsepath = path.resolve(node_modules, dep);
-// config.module.noParse.push(parsepath);
 });
 
 if (env === 'start' || !env) {
   config = merge(config, {
+    entry: {
+      "bundle": ['webpack-hot-middleware/client',
+        './app/main'],
+      "vender": ['antd', 'react', 'react-router', 'react-dom']
+    },
+    output: {
+      path: path.resolve(__dirname, 'public/js'),
+      filename: '[name].js',
+      publicPath: '/public/js'
+    },
     devtool: 'cheap-module-eval-source-map',
     plugins: [
       new webpack.NoErrorsPlugin(),
@@ -88,6 +87,14 @@ if (env === 'start' || !env) {
 
 if (env === 'production') {
   config = merge(config, {
+    entry: {
+      "bundle": ['./app/main'],
+      "vendor": ['antd', 'react', 'react-router', 'react-dom']
+    },
+    output: {
+      path: path.resolve(__dirname, 'public/js'),
+      filename: '[name].js',
+    },
     plugins: [
       new webpack.optimize.UglifyJsPlugin({
         compressor: {
