@@ -111,8 +111,18 @@ exports.addkey = function() {
   return function*(next) {
     if (this.session.user) {
       var keyword = this.request.body;
-      var re = yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
-      this.body = 200;
+      var key = {
+        key: keyword.key
+      };
+      var exist = yield this.mongo.db('weixin').collection('keywords').findOne(key);
+      if (exist) {
+        this.status = 400;
+      } else {
+        yield this.mongo.db('weixin').collection('keywords').insertMany([keyword]);
+        this.body = {
+          err: 0
+        };
+      }
     } else {
       this.redirect('/weixin/login');
     }

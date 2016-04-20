@@ -1,7 +1,7 @@
 import React , { Component, PropTypes } from 'react';
 import { Col, Row } from 'antd';
 import { connect } from 'react-redux';
-import { fetchKey, delKey, addKey } from '../actions';
+import { fetchKey, delKey, addKey, resetErrorMessage } from '../actions';
 import IndexTable from '../components/IndexTable';
 import KeyModal from '../components/KeyModal';
 import '../less/index.less';
@@ -11,12 +11,12 @@ class Index extends Component {
     this.props.fetchKey();
   }
   render() {
-    const {keys, delKey, fetchKey, addKey} = this.props;
+    const {keys, delKey, fetchKey, addKey, errorMessage, resetErrorMessage} = this.props;
     return (
       <Row>
         <Col className="table" span="22" offset="1">
           <KeyModal addKey={addKey} keys={keys}/>
-          <IndexTable keys={keys} delKey={delKey}/>
+          <IndexTable resetErrorMessage={resetErrorMessage} error={errorMessage} keys={keys} delKey={delKey}/>
         </Col>
       </Row>
       );
@@ -32,12 +32,14 @@ Index.proptypes = {
 
 function mapStateToProps(state, props) {
   return {
-    keys: state.entities.keys
+    keys: state.entities.keys,
+    errorMessage: state.errorMessage
   }
 }
 
 export default connect(mapStateToProps, {
   fetchKey,
   delKey,
-  addKey
+  addKey,
+  resetErrorMessage
 })(Index);

@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
 import { routerReducer as routing } from 'react-router-redux';
 import merge from 'lodash/merge';
-import * as ActionTypes from '../constants';
-import { SUCCESS_LOGIN, SUCCESS_KEY, SUCCESS_DELKEY, SUCCESS_ADDKEY } from '../constants';
+import { SUCCESS_LOGIN, SUCCESS_KEY, SUCCESS_DELKEY, SUCCESS_ADDKEY, RESET_ERROR_MESSAGE } from '../constants';
 
 function entities(state = {
     user: {},
@@ -21,20 +20,20 @@ function entities(state = {
       break;
     case SUCCESS_DELKEY:
       let keys = state.keys;
-      // keys.splice(action.payload, 1);
-      // return Object.assign({}, state, {
-      //   keys: keys,
-      // });
       keys = keys.filter((key, index) => index !== action.payload);
       return Object.assign({}, state, {
         keys: keys,
       });
       break;
     case SUCCESS_ADDKEY:
-      let data = [action.payload, ...state.keys];
-      return Object.assign({}, state, {
-        keys: data,
-      });
+      if (action.payload) {
+        let data = [action.payload, ...state.keys];
+        return Object.assign({}, state, {
+          keys: data,
+        });
+      } else {
+        return state;
+      }
       break;
     default:
       return state;
@@ -43,12 +42,12 @@ function entities(state = {
 
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
-  const {type, error} = action
-
-  if (type === ActionTypes.RESET_ERROR_MESSAGE) {
+  const {type, meta} = action
+  console.log(type);
+  if (type === RESET_ERROR_MESSAGE) {
     return null
-  } else if (error) {
-    return action.error
+  } else if (meta) {
+    return meta.message
   }
 
   return state

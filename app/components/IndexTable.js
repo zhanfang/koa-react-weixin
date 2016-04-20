@@ -9,12 +9,18 @@ class IndexTable extends Component {
     this.props.delKey(key, id);
   }
   componentWillReceiveProps(nextProps) {
-    if (this.props.keys.length !== 0) {
-      if (nextProps.keys.length > this.props.keys.length) {
+    const oldLen = this.props.keys.length;
+    const len = nextProps.keys.length;
+    if (oldLen !== 0) {
+      if (len > oldLen) {
         message.success('添加成功！');
-      } else if (nextProps.keys.length < this.props.keys.length) {
+      } else if (len < oldLen) {
         message.success('删除成功！');
       }
+    }
+    if (nextProps.error) {
+      message.error(nextProps.error);
+      this.props.resetErrorMessage();
     }
   }
   render() {

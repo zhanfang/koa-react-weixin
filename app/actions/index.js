@@ -1,5 +1,5 @@
 import { CALL_API } from 'redux-api-middleware';
-import { REQUEST_LOGIN, SUCCESS_LOGIN, FAILURE_LOGIN, REQUEST_KEY, SUCCESS_KEY, FAILURE_KEY, REQUEST_DELKEY, SUCCESS_DELKEY, FAILURE_DELKEY, REQUEST_ADDKEY, SUCCESS_ADDKEY, FAILURE_ADDKEY } from '../constants';
+import { REQUEST_LOGIN, SUCCESS_LOGIN, FAILURE_LOGIN, REQUEST_KEY, SUCCESS_KEY, FAILURE_KEY, REQUEST_DELKEY, SUCCESS_DELKEY, FAILURE_DELKEY, REQUEST_ADDKEY, SUCCESS_ADDKEY, FAILURE_ADDKEY, RESET_ERROR_MESSAGE } from '../constants';
 import { Schema, arrayOf, normalize } from 'normalizr';
 
 const userSchema = new Schema('users');
@@ -54,6 +54,13 @@ export function delKey(key, id) {
   }
 }
 
+function existErrorMessage() {
+  return {
+    type: EXIST_ERROR_MESSAGE,
+    error: '关键词已存在'
+  }
+}
+
 export function addKey(data) {
   return {
     [CALL_API]: {
@@ -61,8 +68,27 @@ export function addKey(data) {
       method: 'POST',
       types: [REQUEST_ADDKEY, {
         type: SUCCESS_ADDKEY,
-        payload: (action) => data
-      }, FAILURE_ADDKEY],
+        payload: data
+      }, {
+        type: FAILURE_ADDKEY,
+        meta: (action, state, res) => {
+          if (res) {
+            if (res.status === 400) {
+              return {
+                message: '关键词已存在，添加失败！',
+              };
+            } else {
+              return {
+                message: res.statusText,
+              };
+            }
+          } else {
+            return {
+              message: 'Network request failed'
+            }
+          }
+        }
+      }],
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
@@ -71,6 +97,7 @@ export function addKey(data) {
     }
   }
 }
+
 
 // Resets the currently visible error message.
 export function resetErrorMessage() {

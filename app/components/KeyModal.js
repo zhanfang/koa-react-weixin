@@ -26,13 +26,15 @@ class KeyModal extends Component {
   }
   handleCancel() {
     this.setState({
-      visible: false
+      visible: false,
+      confirmLoading: false
     });
   }
   componentWillReceiveProps(nextProps) {
-    if (nextProps.keys !== this.props.keys) {
+    if (nextProps !== this.props) {
       this.setState({
-        visible: false
+        visible: false,
+        confirmLoading: false
       });
     }
   }
