@@ -43,7 +43,6 @@ function entities(state = {
 // Updates error message to notify about the failed fetches.
 function errorMessage(state = null, action) {
   const {type, meta} = action
-  console.log(type);
   if (type === RESET_ERROR_MESSAGE) {
     return null
   } else if (meta) {
