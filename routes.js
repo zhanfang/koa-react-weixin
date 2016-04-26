@@ -53,7 +53,11 @@ exports.getIndex = function() {
   return function*(next) {
     if (this.session.user) {
       debug('get index');
-      this.body = yield render('index');
+      if (process.env.NODE_ENV === 'production') {
+        this.body = yield render('index');
+      } else {
+        this.body = yield render('index_dev');
+      }
     } else {
       this.redirect('/weixin/login');
     }
@@ -68,7 +72,11 @@ exports.getLogin = function() {
     if (this.session.user) {
       this.redirect('/weixin/index');
     } else {
-      this.body = yield render('index');
+      if (process.env.NODE_ENV === 'production') {
+        this.body = yield render('index');
+      } else {
+        this.body = yield render('index_dev');
+      }
     }
     yield next;
   };

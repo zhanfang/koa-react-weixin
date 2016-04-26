@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { fetchKey, delKey, addKey, resetErrorMessage } from '../actions';
 import IndexTable from '../components/IndexTable';
 import KeyModal from '../components/KeyModal';
-import '../less/index.less';
+// import '../less/index.less';
 
 class Index extends Component {
   componentWillMount() {
@@ -14,6 +14,7 @@ class Index extends Component {
     const {keys, delKey, fetchKey, addKey, errorMessage, resetErrorMessage} = this.props;
     return (
       <Row>
+        <br/>
         <Col className="table" span="22" offset="1">
           <KeyModal addKey={addKey} keys={keys}/>
           <IndexTable resetErrorMessage={resetErrorMessage} error={errorMessage} keys={keys} delKey={delKey}/>

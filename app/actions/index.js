@@ -98,7 +98,6 @@ export function addKey(data) {
   }
 }
 
-
 // Resets the currently visible error message.
 export function resetErrorMessage() {
   return {
