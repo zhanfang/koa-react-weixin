@@ -3,7 +3,7 @@ import LoginForm from '../components/LoginForm';
 import { browserHistory } from 'react-router';
 import { connect } from 'react-redux';
 import { fetchLogin } from '../actions';
-// import '../less/login.less'
+import '../less/login.less'
 import { message } from 'antd';
 
 class Login extends Component {

@@ -3,7 +3,6 @@ var webpack = require('webpack');
 var merge = require('webpack-merge');
 var CleanPlugin = require('clean-webpack-plugin');
 var node_modules_dir = path.join(__dirname, 'node_modules');
-var assets_source_folder = path.resolve(root_folder, 'assets')
 
 var deps = [
   // 'react/dist/react.min.js',
@@ -29,12 +28,6 @@ var config = {
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
-    new WebpackIsomorphicTools(require('webpack/webpack-isomorphic-config'))
-      .development(env)
-      .server(rootDir, function() {
-        //回调
-        require('./server.js'); //启动 server
-      })
   ],
   resolve: {
     alias: {}
