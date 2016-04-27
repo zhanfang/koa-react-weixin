@@ -40,19 +40,6 @@ class NavBar extends Component {
         <Menu.Item key="page">
           <Icon type="mail"/>文章
         </Menu.Item>
-        <SubMenu title={<span><Icon type="setting" />导航 - 子菜单</span>}>
-          <MenuItemGroup title="分组1">
-            <Menu.Item key="setting:1">选项1</Menu.Item>
-            <Menu.Item key="setting:2">选项2</Menu.Item>
-          </MenuItemGroup>
-          <MenuItemGroup title="分组2">
-            <Menu.Item key="setting:3">选项3</Menu.Item>
-            <Menu.Item key="setting:4">选项4</Menu.Item>
-          </MenuItemGroup>
-        </SubMenu>
-        <Menu.Item key="alipay">
-          <a href="#">导航四 - 链接</a>
-        </Menu.Item>
         <Menu.Item key="logout" className="logout">
           <a href="/weixin/logout">logout</a>
         </Menu.Item>

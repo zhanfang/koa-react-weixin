@@ -3,6 +3,7 @@ var webpack = require('webpack');
 var merge = require('webpack-merge');
 var CleanPlugin = require('clean-webpack-plugin');
 var node_modules_dir = path.join(__dirname, 'node_modules');
+
 var deps = [
   // 'react/dist/react.min.js',
   'react-json-tree/lib/index.js',
@@ -96,6 +97,8 @@ if (env === 'production') {
       filename: '[name].js',
     },
     plugins: [
+      //去除重复引入的js代码
+      new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compressor: {
           pure_getters: true,

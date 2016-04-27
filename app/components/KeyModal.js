@@ -15,9 +15,6 @@ class KeyModal extends Component {
     });
   }
   handleOk() {
-    this.setState({
-      confirmLoading: true
-    });
     const data = {
       key: this.refs.key.refs.input.value,
       val: this.refs.val.refs.input.value
@@ -26,26 +23,25 @@ class KeyModal extends Component {
   }
   handleCancel() {
     this.setState({
-      visible: false,
-      confirmLoading: false
+      visible: false
     });
   }
   componentWillReceiveProps(nextProps) {
     if (nextProps !== this.props) {
       this.setState({
-        visible: false,
-        confirmLoading: false
+        visible: false
       });
     }
   }
   render() {
     return (
-      <div>
+      <div style={{
+        marginBottom: 12
+      }}>
         <Button type="primary" onClick={this.showModal.bind(this)}>添加关键字回复</Button>
         <Modal title="添加关键字回复"
       visible={this.state.visible}
       onOk={this.handleOk.bind(this)}
-      confirmLoading={this.state.confirmLoading}
       onCancel={this.handleCancel.bind(this)}>
         <Input ref="key" defaultValue="" placeholder="请输入关键词"/>
         <Input ref="val" type="textarea" placeholder="请输入详细的回复信息" rows="4" style={{
