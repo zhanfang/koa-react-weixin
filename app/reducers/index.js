@@ -5,7 +5,7 @@ import { SUCCESS_LOGIN, SUCCESS_KEY, SUCCESS_DELKEY, SUCCESS_ADDKEY, RESET_ERROR
 
 function entities(state = {
     user: {},
-    keys: []
+    keys: [],
   } , action) {
   switch (action.type) {
     case SUCCESS_LOGIN:
@@ -48,9 +48,9 @@ function errorMessage(state = null, action) {
   } else if (meta) {
     return meta.message
   }
-
   return state
 }
+
 
 const rootReducer = combineReducers({
   entities,
