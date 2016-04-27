@@ -1,3 +1,5 @@
+// import path from 'path';
+
 var logger = require('./log/logger');
 var debug = require('debug')('wx');
 var koa = require('koa');
