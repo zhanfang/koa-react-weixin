@@ -3,6 +3,8 @@ var webpack = require('webpack');
 var merge = require('webpack-merge');
 var CleanPlugin = require('clean-webpack-plugin');
 var node_modules_dir = path.join(__dirname, 'node_modules');
+var assets_source_folder = path.resolve(root_folder, 'assets')
+
 var deps = [
   // 'react/dist/react.min.js',
   'react-json-tree/lib/index.js',
@@ -27,6 +29,12 @@ var config = {
       'process.env.NODE_ENV': JSON.stringify(env)
     }),
     new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.js'),
+    new WebpackIsomorphicTools(require('webpack/webpack-isomorphic-config'))
+      .development(env)
+      .server(rootDir, function() {
+        //回调
+        require('./server.js'); //启动 server
+      })
   ],
   resolve: {
     alias: {}
@@ -96,6 +104,8 @@ if (env === 'production') {
       filename: '[name].js',
     },
     plugins: [
+      //去除重复引入的js代码
+      new webpack.optimize.DedupePlugin(),
       new webpack.optimize.UglifyJsPlugin({
         compressor: {
           pure_getters: true,

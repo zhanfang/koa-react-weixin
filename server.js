@@ -1,35 +1,47 @@
-// import path from 'path';
+import koa from 'koa';
+import Router from 'koa-router';
+import serve from './lib/koa-static';
+import logger from 'koa-logger';
+import session from 'koa-generic-session';
+import redisStore from 'koa-redis';
+import bodyParser from 'koa-bodyparser';
+import xmlParser from 'koa-xml-body'; // note the default
+import mongo from 'koa-mongo';
+import compress from "koa-compress";
 
-var logger = require('./log/logger');
 var debug = require('debug')('wx');
-var koa = require('koa');
-var Router = require('koa-router');
-var serve = require('koa-static');
-var logger = require('koa-logger');
-var session = require('koa-generic-session');
-var redisStore = require('koa-redis');
-var bodyParser = require('koa-bodyparser');
-var xmlParser = require('koa-xml-body').default; // note the default
-var mongo = require('koa-mongo');
-var compress = require("koa-compress");
 
-var webpack = require('webpack');
-var webpackDevMiddleware = require('koa-webpack-dev-middleware');
-var webpackHotMiddleware = require('koa-webpack-hot-middleware');
-var config = require('./webpack.config')
+//服务器渲染
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import { createStore, applyMiddleware, compose } from 'redux';
+import { Provider } from 'react-redux';
+import { browserHistory } from 'react-router';
+import { syncHistoryWithStore } from 'react-router-redux';
+import { apiMiddleware } from 'redux-api-middleware';
+import thunk from 'redux-thunk';
+import reactR from './app/routes';
+import rootReducer from './app/reducers';
+import swig from 'swig';
 
-var app = koa();
-var r = require('./routes');
-var router = new Router({
+// webpack热加载
+import webpack from 'webpack';
+import webpackDevMiddleware from 'koa-webpack-dev-middleware';
+import webpackHotMiddleware from 'koa-webpack-hot-middleware';
+import config from './webpack.config';
+
+const app = koa();
+const env = process.env.NODE_ENV;
+const router = new Router({
   prefix: '/weixin'
 });
 
-var compiler = webpack(config);
-
 //路由配置
+var r = require('./routes');
 router.post('/', xmlParser(), r.handler());
-router.get('/index', r.getIndex());
-router.get('/login', r.getLogin());
+// router.get('/index', r.getIndex());
+// router.get('/login', r.getLogin());
 router.post('/login', bodyParser(), r.postLogin());
 router.get('/keywords', r.getKs());
 router.post('/addkey', bodyParser(), r.addkey());
@@ -62,17 +74,66 @@ app.use(mongo({
 app.use(router.routes())
   .use(router.allowedMethods());
 
+//服务器渲染
+app.use(function*(next) {
+  const self = this;
+  match({
+    routes: reactR,
+    location: self.path
+  }, function(err, redirectLocation, renderProps) {
+    debug('redirectLocation is %s', redirectLocation);
+    debug('err is %s', err);
+    debug('renderProps is %s', renderProps);
+    if (err) {
+      self.status = 500;
+    } else if (redirectLocation) {
+      self.redirect(redirectLocation.pathname + redirectLocation.search)
+    } else if (renderProps) {
+      const store = compose(
+        applyMiddleware.apply(this, [thunk, apiMiddleware])
+      )(createStore)(rootReducer);
+
+      // render the component to string
+      const initialView = renderToString(
+        <Provider store={store}>
+            { <RouterContext {...renderProps} /> }
+        </Provider>
+      );
+      const initialState = store.getState();
+      if (env === 'production') {
+        self.body = swig.renderFile('views/index.html', {
+          html: initialView,
+          initialState
+        });
+      } else {
+        self.body = swig.renderFile('views/index_dev.html', {
+          html: initialView,
+          initialState
+        });
+      }
+    } else {
+      self.status = 404;
+    }
+  });
+  yield next;
+
+});
+
+
 app.on('error', function(err, ctx) {
   console.error('server error', err);
-  logger.err(err, ctx);
 });
 app.use(compress());
 
-app.use(webpackDevMiddleware(compiler, {
-  noInfo: true,
-  publicPath: config.output.publicPath
-}));
-app.use(webpackHotMiddleware(compiler));
+if (env !== 'production') {
+  const compiler = webpack(config);
+  app.use(webpackDevMiddleware(compiler, {
+    noInfo: true,
+    publicPath: config.output.publicPath
+  }));
+  app.use(webpackHotMiddleware(compiler));
+}
+
 
 
 app.listen(3333);

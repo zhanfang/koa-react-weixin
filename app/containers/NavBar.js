@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router';
 import { browserHistory } from 'react-router';
 import { Menu, Icon } from 'antd';
-import '../less/menu.less';
+// import '../less/menu.less';
 
 const SubMenu = Menu.SubMenu;
 const MenuItemGroup = Menu.ItemGroup;

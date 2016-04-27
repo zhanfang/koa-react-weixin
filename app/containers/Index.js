@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { fetchKey, delKey, addKey, resetErrorMessage } from '../actions';
 import IndexTable from '../components/IndexTable';
 import KeyModal from '../components/KeyModal';
-// import '../less/index.less';
 
 class Index extends Component {
   componentWillMount() {

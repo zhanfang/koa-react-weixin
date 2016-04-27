@@ -11,21 +11,4 @@
     "transform-decorators-legacy",
     "transform-object-rest-spread"
   ],
-  "env": {
-    "start": {
-      "plugins": [
-        [
-          "react-transform", {
-            "transforms": [
-              {
-                "transform": "react-transform-hmr",
-                "imports": ["react"],
-                "locals": ["module"]
-              }
-            ]
-          }
-        ]
-      ]
-    }
-  }
 }

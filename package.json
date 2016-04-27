@@ -6,6 +6,7 @@
   "scripts": {
     "test": "node ./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha --report lcovonly",
     "build": "export NODE_ENV=production&& webpack --progress --colors --profile",
+    "start": "NODE_ENV='start' DEBUG=wx nodemon server.js --exec babel-node",
     "server": "nodemon server.js --exec babel-node",
     "dev": "webpack-dev-server -d --inline --devtool eval --progress --colors --host 0.0.0.0 --port 8080 --content-base views",
     "isHtml": "istanbul report --root coverage --format html"
@@ -28,6 +29,7 @@
     "koa-redis": "^2.0.1",
     "koa-router": "^5.4.0",
     "koa-static": "^2.0.0",
+    "koa-send": "~3.1.0",
     "koa-xml-body": "^1.0.3",
     "lodash": "^4.11.1",
     "normalizr": "^2.0.1",
@@ -81,6 +83,7 @@
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
     "webpack-dev-server": "^1.14.1",
+    "webpack-isomorphic-tools": "^2.2.48",
     "webpack-merge": "^0.11.0",
     "winston": "^2.2.0"
   }
