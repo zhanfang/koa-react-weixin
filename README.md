@@ -14,6 +14,9 @@
 - redux:状态管理；
 - antd:插件和样式管理基础；
 
+## 环境安装
+该程序需要提前安装好npm > 5.0.0、mongodb以及redis，具体安装方法请自行google/baidu。
+
 ## 运行
 有两种模式可以运行该工程
 - production:在这种模式下会压缩bundle.js等文件，并且会生成bundle.js和vendor.js在public目录下；

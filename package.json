@@ -28,7 +28,6 @@
     "koa-mongo": "^0.5.0",
     "koa-redis": "^2.0.1",
     "koa-router": "^5.4.0",
-    "koa-static": "^2.0.0",
     "koa-send": "~3.1.0",
     "koa-xml-body": "^1.0.3",
     "lodash": "^4.11.1",
